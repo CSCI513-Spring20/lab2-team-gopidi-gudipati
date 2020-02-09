@@ -1,15 +1,13 @@
 
 	
-import java.awt.event.KeyEvent;
+import javafx.scene.input.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
-
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +20,7 @@ public class OceanExplorer extends Application {
 	boolean[][] oceanGrid = oceanMap.getMap();
 	AnchorPane myPane = new AnchorPane();
 	Scene scene = new Scene(myPane, scale*dimension, scale*dimension);
-	Ship ship = new Ship(oceanMap);
+	Ship ship = new Ship();
 	public void start(Stage oceanStage) throws Exception {
 		
 		drawMap();
@@ -30,7 +28,7 @@ public class OceanExplorer extends Application {
 		oceanStage.setScene(scene);
 		oceanStage.setTitle("Columbus Game");
 		oceanStage.show();
-		//startSailing();
+		startSailing();
 		
 	}
 	public void drawMap() {
@@ -49,8 +47,8 @@ public class OceanExplorer extends Application {
 		Image shipImage = new Image("ship.png",50,50,true,true);
 		
 		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(oceanMap.getShipLocation().x*scale);
-		shipImageView.setY(oceanMap.getShipLocation().y*scale);
+		shipImageView.setX(6*scale);
+		shipImageView.setY(6*scale);
 		
 		myPane.getChildren().add(shipImageView);
 		}
@@ -70,22 +68,29 @@ public class OceanExplorer extends Application {
 			public void handle(KeyEvent ke) {
 				switch(ke.getCode()) {
 				case RIGHT :
-					ship.goEast();
+					//System.out.println("right");
+					ship.goEast(oceanMap.getShipLocation().x*scale,oceanMap.getShipLocation().y*scale);
+					//System.out.println(oceanMap.getShipLocation().x*scale+" "+oceanMap.getShipLocation().y*scale);
+					
 					break;
 				case LEFT :
-					ship.goWest();
+					ship.goWest(oceanMap.getShipLocation().x*scale,oceanMap.getShipLocation().y*scale);
+					//ship.goWest();
 					break;
 				case UP :
-					ship.goNorth();
+					ship.goNorth(oceanMap.getShipLocation().x*scale,oceanMap.getShipLocation().y*scale);
 					break;
 				case DOWN :
-					ship.goSouth();
+					ship.goSouth(oceanMap.getShipLocation().x*scale,oceanMap.getShipLocation().y*scale);
 					break;
 				default :
 					break;	
 				}
-				shipImageView.set(ship.getShipLocation().x*scale);
-				shipImageView.set(ship.getShipLocation().y*scale);
+				shipImageView.setX(ship.getShipLocation().x);
+				shipImageView.setY(ship.getShipLocation().y);
+				
+				oceanMap.initiate(ship.getShipLocation().x/50, ship.getShipLocation().y/50);
+				
 			}
 		});
 	}
