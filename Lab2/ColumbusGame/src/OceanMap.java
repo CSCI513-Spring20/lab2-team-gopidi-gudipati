@@ -1,11 +1,9 @@
-
-
 import java.awt.Point;
 
 public class OceanMap {
-	boolean[][] oceanMap = new boolean[10][10];
-	int xCell =6;
-	int yCell =6;
+	boolean[][] oceanMap = new boolean[10][10];	//Initializing the grid size
+	int xCell ;
+	int yCell ;
 	
 	public void initiate(int a, int b) {
 		xCell =a;
@@ -19,6 +17,6 @@ public class OceanMap {
 		return oceanMap;
 	}
 	public Point getShipLocation() {
-		return new Point(xCell,yCell);
+		return new Point(xCell,yCell);	//Getting the ships location
 	}
 }
